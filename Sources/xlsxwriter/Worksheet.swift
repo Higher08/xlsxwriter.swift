@@ -138,8 +138,8 @@ public struct Worksheet {
     return self
   }
   
-  @discardableResult public func freeze(row: Int, col: Int) -> Worksheet {
-    worksheet_freeze_panes(lxw_worksheet, row, col)
+  @discardableResult public func freeze(_ cell: Cell) -> Worksheet {
+    worksheet_freeze_panes(lxw_worksheet, cell.row, cell.col)
     return self
   }
   
