@@ -105,8 +105,7 @@ public struct Worksheet {
       error = formula.withCString { s in worksheet_write_formula(lxw_worksheet, r, c, s, f) }
     case .datetime(let datetime):
       error = lxw_error(rawValue: 0)
-      let num = (datetime.timeIntervalSince1970 / 86400) + 25569
-      worksheet_write_number(lxw_worksheet, r, c, num, f)
+      worksheet_write_unixtime(lxw_worksheet, r, c, Int64(datetime.timeIntervalSince1970), f)
     }
     if error.rawValue != 0 { fatalError(String(cString: lxw_strerror(error))) }
 
@@ -135,6 +134,11 @@ public struct Worksheet {
   /// Set the paper type for printing.
   @discardableResult public func paper(type: PaperType) -> Worksheet {
     worksheet_set_paper(lxw_worksheet, type.rawValue)
+    return self
+  }
+  
+  @discardableResult public func freeze(_ cell: Cell) -> Worksheet {
+    worksheet_freeze_panes(lxw_worksheet, cell.row, cell.col)
     return self
   }
   /// Set the properties for one or more columns of cells.
