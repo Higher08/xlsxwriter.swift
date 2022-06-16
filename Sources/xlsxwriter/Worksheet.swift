@@ -137,12 +137,6 @@ public struct Worksheet {
     worksheet_set_paper(lxw_worksheet, type.rawValue)
     return self
   }
-  
-  @discardableResult public func freeze(row: Int, col: Int) -> Worksheet {
-    worksheet_freeze_panes(lxw_worksheet, row, col)
-    return self
-  }
-  
   /// Set the properties for one or more columns of cells.
   @discardableResult public func column(_ cols: Cols, width: Double, format: Format? = nil)
     -> Worksheet
