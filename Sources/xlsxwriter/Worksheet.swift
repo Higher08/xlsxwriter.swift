@@ -86,8 +86,7 @@ public struct Worksheet {
       case .formula(let formula): error = formula.withCString { s in worksheet_write_formula(lxw_worksheet, r, c, s, f) }
       case .datetime(let datetime):
         error = lxw_error(rawValue: 0)
-        let num = (datetime.timeIntervalSince1970 / 86400) + 25569
-        worksheet_write_number(lxw_worksheet, r, c, num, f)
+        worksheet_write_unixtime(lxw_worksheet, r, c, Int64(datetime.timeIntervalSince1970), f)
       }
       if error.rawValue != 0 { fatalError(String(cString: lxw_strerror(error))) }
     
