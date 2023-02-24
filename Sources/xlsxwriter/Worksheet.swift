@@ -125,6 +125,10 @@ public struct Worksheet {
     _ = worksheet_set_column(lxw_worksheet, first, last, width, f) 
     return self
   }
+  @discardableResult public func freeze(_ cell: Cell) -> Worksheet {
+    worksheet_freeze_panes(lxw_worksheet, cell.row, cell.col)
+    return self
+  }
   /// Set the properties for one or more columns of cells.
   @discardableResult public func hide_columns(_ col: Int, width: Double = 8.43) -> Worksheet {
     let first = UInt16(col)
